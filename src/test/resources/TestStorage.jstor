@@ -1,0 +1,18 @@
+Anything before BEGIN FILE_NAME is ignored
+
+Author: Callumc34
+Version 1.0
+
+BEGIN TEST_JSTOR; # Name of JStorage file is TEST_JSTOR 
+# Class definitions 
+&RECTANGLE;
+# Class variables 
+INTEGER &RECTANGLE.X = 12;
+
+INTEGER &RECTANGLE.Y = 10;
+
+STRING &RECTANGLE.NAME = "Lmao qui a le fait cela?";
+
+END; # Everything past here is ignored
+
+Test JStorage file
