@@ -25,10 +25,11 @@ public class JStorage {
    public JStorage() {
    }
    
-   static JStorage parse(String path) throws FileNotFoundException {
+   static public JStorage parse(String path) throws FileNotFoundException {
       File file = new File(path);
       Scanner sc = new Scanner(file);
       
+      int currentLine = 0;
       boolean begin = false;
       boolean end = false;
       String currentLines = "";
@@ -39,7 +40,8 @@ public class JStorage {
       Matcher match;
       
       while (sc.hasNextLine() || end) {
-         currentLines += sc.nextLine();
+         currentLines += sc.nextLine().trim();
+         currentLine++;
          
          //Deal with comments
          pattern = Pattern.compile("#");
@@ -77,7 +79,43 @@ public class JStorage {
             break;
          }
          
-         System.out.printf("%s\n", currentLines);
+         //Handle definition commands
+         pattern = Pattern.compile("(?<=DEFINE )(.)*?(?=;)");
+         match = pattern.matcher(currentLines);
+         while (match.find()) {
+            //Find variable type
+            String cmd = match.group(0);
+            
+            Pattern typePattern = Pattern.compile("(?<=(.)*)(OBJECT|STRING|INTEGER|FLOAT|DOUBLE|BOOL)(?=(.)*)");
+            Matcher typeMatcher = typePattern.matcher(cmd);
+            if (typeMatcher.find()) {         
+               String type = typeMatcher.group(0);
+               
+               switch (type) {
+                  case "OBJECT":
+                     break;
+                     
+                  case "STRING":
+                     break;
+                     
+                  case "INTEGER":
+                     break;
+                     
+                  case "FLOAT":
+                     break;
+                     
+                  case "DOUBLE":
+                     break;
+                    
+                  case "BOOL":
+                     break;
+               }
+            }
+            System.out.printf("\n%s\n", currentLines);
+            
+            //Command handled clear String
+            currentLines = "";
+         }
          
       }
       return new JStorage(data, name);

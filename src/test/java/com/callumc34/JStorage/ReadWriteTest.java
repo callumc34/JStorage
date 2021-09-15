@@ -1,5 +1,7 @@
 package com.callumc34.jstorage;
 
+import com.callumc34.jstorage.JStorage;
+
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;

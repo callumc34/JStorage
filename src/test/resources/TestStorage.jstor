@@ -5,13 +5,13 @@ Version 1.0
 
 BEGIN TEST_JSTOR; # Name of JStorage file is TEST_JSTOR 
 # Class definitions 
-&RECTANGLE;
+DEFINE OBJECT RECTANGLE;
 # Class variables 
-INTEGER &RECTANGLE.X = 12;
+DEFINE INTEGER RECTANGLE.X = 12;
 
-INTEGER &RECTANGLE.Y = 10;
+DEFINE INTEGER RECTANGLE.Y = 10;
 
-STRING &RECTANGLE.NAME = "Lmao qui a le fait cela?";
+DEFINE STRING RECTANGLE.NAME = "Lmao qui a le fait cela?";
 
 END; # Everything past here is ignored
 
