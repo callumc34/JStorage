@@ -25,6 +25,39 @@ public class JStorage {
    public JStorage() {
    }
    
+   public String toString() {
+      return String.format("%s - %s", name, FileData.toString());
+   }
+   
+   static public Object castStringToType(String type, String value) {
+      switch (type) {
+         case "OBJECT":
+            return new HashMap<String, HashMap>();
+            
+         case "STRING":
+            return value;
+           
+        case "BOOLEAN":
+            return value.isEmpty();
+            
+        case "INTEGER":
+            return Integer.parseInt(value);
+            
+        case "FLOAT":
+            return Float.parseFloat(value);
+            
+        case "DOUBLE":
+            return Double.parseDouble(value);
+      }
+      return value;
+   }
+   
+   static public HashMap<String, Object> objectStringToHashMap(String objString) {
+      if (objString.isEmpty()) {
+         return new HashMap<String, Object>();
+      }
+   }
+      
    static private void putObject(HashMap<String, HashMap> ref, String[] objPath, Object value) {
 		//Cannot have objPath of less than 2
       if (objPath.length == 1) {
@@ -88,12 +121,12 @@ public class JStorage {
          
          //Find beginning of JStorage file
          if (!begin) {
-            pattern = Pattern.compile("(?<=BEGIN )(.)*(?=;)");
+            pattern = Pattern.compile("(?<=BEGIN )[aA-zZ]+?(?=;)");
             match = pattern.matcher(currentLines);
             
             if (match.find()) {
                begin = true;
-               name = match.group(1);
+               name = match.group(0);
                currentLines = currentLines.substring(match.end() + 1, currentLines.length());
             }
             continue;
@@ -114,24 +147,25 @@ public class JStorage {
             //Find variable type
             String cmd = match.group(0).strip();
             String[] splitEquals = cmd.split(" = ");
-            String value = null;
-            
-            if (splitEquals.length > 1) {
-               value = splitEquals[1];
-            }
+            Object value = null;
             
             String[] splitCmd = splitEquals[0].split(" ");
             String type = splitCmd[0];
             String obj = splitCmd[1];
             
+            if (splitEquals.length > 1) {
+               value = castStringToType(type, splitEquals[1]);
+            }
+            
             String[] objPath = obj.split("\\.");
             
-            if (objPath.length == 1 && value == null) {
-               data.put(objPath[0], new HashMap<String, HashMap>());
-            }  else if (objPath.length == 1 && !type.equals("OBJECT")) {
+            //Create new hashmap for object defined
+            if (objPath.length == 1 && !type.equals("OBJECT")) {
+               //Cannot set value of a non class member variable
                System.out.printf("Error at line: %d - Value defined to a non object variable");
                break;
             } else {
+               //Add object to data hashmap
                putObject(data, objPath, value);
             }
             

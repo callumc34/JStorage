@@ -15,5 +15,11 @@ public class ReadTest {
     @Test
     public void read() throws Throwable {
       JStorage readTest = JStorage.parse("../../../../resources/TestStorage.jstor");
+      Assert.assertEquals(
+         "Check test jstor file for correct parsing should succeed",
+         readTest.toString().equals(
+         "TEST_JSTOR - {RECTANGLE={X=12, Y=10, NAME=\"Rectangle 1\"}, SQUARE={NAME=\"Square 1\"}}"
+         ), true
+      );
     }
 }
