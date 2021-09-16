@@ -3,15 +3,21 @@ Anything before BEGIN FILE_NAME is ignored
 Author: Callumc34
 Version 1.0
 
-BEGIN TEST_JSTOR; # Name of JStorage file is TEST_JSTOR 
+BEGIN TEST_JSTOR; # Name of JStorage file is TEST_JSTOR
+
 # Class definitions 
 DEFINE OBJECT RECTANGLE;
+
 # Class variables 
 DEFINE INTEGER RECTANGLE.X = 12;
 
 DEFINE INTEGER RECTANGLE.Y = 10;
 
-DEFINE STRING RECTANGLE.NAME = "Lmao qui a le fait cela?";
+DEFINE STRING RECTANGLE.NAME = "Rectangle 1";
+
+DEFINE OBJECT SQUARE = {"Y": 10, "X": 10};
+
+DEFINE STRING SQUARE.NAME = "Square 1";
 
 END; # Everything past here is ignored
 

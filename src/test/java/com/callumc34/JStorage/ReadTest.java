@@ -14,6 +14,6 @@ public class ReadTest {
     
     @Test
     public void read() throws Throwable {
-      JStorage readTest = JStorage.parse("../resources/TestStorage.jstor");
+      JStorage readTest = JStorage.parse("../../../../resources/TestStorage.jstor");
     }
 }

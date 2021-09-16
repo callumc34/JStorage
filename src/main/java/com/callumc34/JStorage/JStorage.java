@@ -2,11 +2,11 @@ package com.callumc34.jstorage;
 
 import java.util.Scanner;
 import java.util.HashMap;
+import java.util.Arrays;
+import java.util.regex.*;
 
 import java.io.FileNotFoundException;
 import java.io.File;
-
-import java.util.regex.*;
 
 public class JStorage {
    private Scanner fileScan;
@@ -23,6 +23,34 @@ public class JStorage {
    }
    
    public JStorage() {
+   }
+   
+   static private void putObject(HashMap<String, HashMap> ref, String[] objPath, Object value) {
+		//Cannot have objPath of less than 2
+      if (objPath.length == 1) {
+			return;
+		}
+		
+      //Add the object value
+		if (objPath.length == 2) {
+			if (ref.containsKey(objPath[0])) {
+				ref.get(objPath[0]).put(objPath[1], value);
+				return;
+			} 
+			HashMap<String, Object> temp = new HashMap<String, Object>();
+			temp.put(objPath[1], value);
+			ref.put(objPath[0], temp);
+			return;
+		}
+		
+      //Append
+		if (ref.containsKey(objPath[0])) {
+			putObject(ref.get(objPath[0]), Arrays.copyOfRange(objPath, 1, objPath.length), value);
+		} else {
+			HashMap<String, HashMap> temp = new HashMap<String, HashMap>();
+			ref.put(objPath[0], temp);
+			putObject(temp, Arrays.copyOfRange(objPath, 1, objPath.length), value);
+		}      
    }
    
    static public JStorage parse(String path) throws FileNotFoundException {
@@ -84,38 +112,33 @@ public class JStorage {
          match = pattern.matcher(currentLines);
          while (match.find()) {
             //Find variable type
-            String cmd = match.group(0);
+            String cmd = match.group(0).strip();
+            String[] splitEquals = cmd.split(" = ");
+            String value = null;
             
-            Pattern typePattern = Pattern.compile("(?<=(.)*)(OBJECT|STRING|INTEGER|FLOAT|DOUBLE|BOOL)(?=(.)*)");
-            Matcher typeMatcher = typePattern.matcher(cmd);
-            if (typeMatcher.find()) {         
-               String type = typeMatcher.group(0);
-               
-               switch (type) {
-                  case "OBJECT":
-                     break;
-                     
-                  case "STRING":
-                     break;
-                     
-                  case "INTEGER":
-                     break;
-                     
-                  case "FLOAT":
-                     break;
-                     
-                  case "DOUBLE":
-                     break;
-                    
-                  case "BOOL":
-                     break;
-               }
+            if (splitEquals.length > 1) {
+               value = splitEquals[1];
             }
-            System.out.printf("\n%s\n", currentLines);
+            
+            String[] splitCmd = splitEquals[0].split(" ");
+            String type = splitCmd[0];
+            String obj = splitCmd[1];
+            
+            String[] objPath = obj.split("\\.");
+            
+            if (objPath.length == 1 && value == null) {
+               data.put(objPath[0], new HashMap<String, HashMap>());
+            }  else if (objPath.length == 1 && !type.equals("OBJECT")) {
+               System.out.printf("Error at line: %d - Value defined to a non object variable");
+               break;
+            } else {
+               putObject(data, objPath, value);
+            }
             
             //Command handled clear String
-            currentLines = "";
          }
+         
+         currentLines = "";
          
       }
       return new JStorage(data, name);
