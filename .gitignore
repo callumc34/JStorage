@@ -3,3 +3,6 @@ JStorage.gpj
 
 #Java classes
 *.class
+
+#Maven
+target
