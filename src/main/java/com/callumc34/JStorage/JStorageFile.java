@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 
 //TODO(Callum): Implement external file formats
 interface JStorageFile {
-   public void parse();
    public void fromJStor(JStor storage);
    public void fromJStorFile(String path) throws FileNotFoundException;
    public void fromYAML();
@@ -14,7 +13,7 @@ interface JStorageFile {
    public void fromJSON();
    public void fromJSONFile(String path);
    
-   public String dump();
+   public String toString();
    public JStor toJStor();
    public void toYAML();
    public void toXML();
