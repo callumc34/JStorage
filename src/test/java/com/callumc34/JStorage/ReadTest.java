@@ -14,7 +14,6 @@ public class ReadTest {
     
     @Test
     public void read() throws Throwable {
-      JStor file = JStorage.parseJStor("src/test/resources/TestStorage.jstor");
-      System.out.printf(file.getData().toString());
+    
     }
 }

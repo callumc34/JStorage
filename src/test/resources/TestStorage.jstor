@@ -3,7 +3,7 @@ Anything before BEGIN FILE_NAME is ignored
 Author: Callumc34
 Version 1.0
 
-BEGIN TEST_JSTOR; # Name of JStorage file is TEST_JSTOR
+BEGIN; # Name of JStorage file is TEST_JSTOR
 
 # Class definitions 
 DEFINE OBJECT RECTANGLE;

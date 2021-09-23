@@ -1,14 +1,13 @@
 package com.callumc34.jstorage;
 
-public class JStorageObject<T> {   
-   public String key;
-   //TODO(Callum): Make java reference to parent
-   public JStorageObject parent;
-   public T value;
+import java.util.ArrayList;
+
+public class JStorageObject<T> {
+   public String name;
+   protected T value;
    
-   public JStorageObject(String k, JStorageObject p, T v) {
-      key = k;
-      parent = p;
+   public JStorageObject(String n, T v) {
+      name = n;
       value = v;
    }
    
@@ -17,7 +16,26 @@ public class JStorageObject<T> {
    }
    
    public String toString() {
-      return String.format("KEY: %s\nPARENT: %s\nVALUE: %s",
-         key, (parent.key != null) ? parent.key : "none", value.toString());
+      return String.format("NAME: %s - VALUE: %s", name, value.toString());
+   }
+   
+   public T get() {
+      return value;
+   }
+   
+   public void set(T v) {
+      value = v;
+   }
+   
+   public boolean hasChildren() {
+      return false;
+   }
+   
+   public boolean addChild(JStorageObject obj) {
+      return false;
+   }
+   
+   public ArrayList<JStorageObject> getChildren() {
+      return null;
    }
 }

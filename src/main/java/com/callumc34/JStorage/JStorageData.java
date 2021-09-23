@@ -1,44 +1,41 @@
 package com.callumc34.jstorage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-class JStorageData {
+//Special class for handling with children
+class JStorageData extends JStorageObject<ArrayList<JStorageObject>> {
    
-   private ArrayList<JStorageObject> data;
+   public JStorageData(JStorageObject[] children) {
+      value = new ArrayList<JStorageObject>();
+      Collections.addAll(value, children);
+   }
+   
+   public JStorageData(ArrayList<JStorageObject> v) {
+      value = v;
+   }
+   
+   public JStorageData(String n) {
+      name = n;
+      value = new ArrayList<JStorageObject>();
+   }
    
    public JStorageData() {
-      data = new ArrayList<JStorageObject>();
+      value = new ArrayList<JStorageObject>();   
    }
    
-   public int index(String key) {
-      //TODO(Callum): Make search more efficient
-      int index = 0;
-      for (JStorageObject d : data) {
-         if (d.key.equals(key)) {
-            return index; 
-         }
-         index++;
-      }
-      return -1;
+   @Override
+   public boolean hasChildren() {
+      return value.size() > 0;
    }
    
-   public String toString() {
-      String ret = "";
-      for (JStorageObject obj : data) {
-         ret += String.format("\n%s\n", obj.toString());
-      }
-      return ret;
+   @Override
+   public boolean addChild(JStorageObject obj) {
+      return value.add(obj);
    }
    
-   public JStorageObject get(String key) {
-      return data.get(index(key));
-   }
-   
-   public boolean exists(String key) {
-      return (index(key) != -1);
-   }
-   
-   public boolean add(JStorageObject obj) {
-      return data.add(obj);
+   @Override
+   public ArrayList<JStorageObject> getChildren() {
+      return value;
    }
 }
