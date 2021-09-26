@@ -3,8 +3,14 @@ package com.callumc34.jstorage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.io.FileNotFoundException;
+
 public class JStorage {
    private JStorageData data;
+   
+   public JStorage(JStorageData d) {
+      d = data;
+   }
    
    public JStorage() {
       data = new JStorageData("JStorage");
@@ -78,7 +84,7 @@ public class JStorage {
       return data.toString();
    }
    
-   static public JStorage fromJStorFile(String path) {
+   static public JStorage fromJStorFile(String path) throws FileNotFoundException {
       return JStor.parse(path);
    }
    
