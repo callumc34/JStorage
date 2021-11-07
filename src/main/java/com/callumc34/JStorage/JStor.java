@@ -1,11 +1,14 @@
 package com.callumc34.jstorage;
 
-import java.util.Arrays;
-import java.util.Scanner;
-import java.util.regex.*;
+import java.lang.StringBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.regex.*;
 
 class JStor {
    public static JStorage parse(String path) throws FileNotFoundException {
@@ -47,7 +50,7 @@ class JStor {
             
             if (match.find()) {
                begin = true;
-               currentLines = currentLines.substring(match.end() + 1, currentLines.length());
+               currentLines = "";
             }
             continue;
          }
@@ -69,7 +72,7 @@ class JStor {
             String cmd = match.group(0).strip();
             String[] splitEquals = cmd.split(" = ");
             
-            String  stringValue = "";
+            String stringValue = "";
             if (splitEquals.length > 1) {
                stringValue = splitEquals[1];
             }
@@ -139,12 +142,57 @@ class JStor {
       }
       return ret;
    }
+   
+   public static String dumpObject(JStorageObject obj, String parentPath) {   
+      if (!obj.hasChildren()) {
+         String type = javaClassToJStor(obj.get().getClass().getName());
+         String name = obj.name;
+         String val = obj.get().toString();
+         return String.format("DEFINE %s %s.%s = %s;", type, parentPath, name, val);
+      }      
       
-   public static String dump() {
-      return null;
+      StringBuilder ret = new StringBuilder();
+      ArrayList<JStorageObject> children = obj.getChildren();
+      for (JStorageObject child : children) {
+         ret.append(dumpObject(child, String.format("%s.%s", parentPath, obj.name)));
+      }
+      return ret.toString();
    }
    
-   public static boolean dumpToFile(String path) {
+   public static String dumpObject(JStorageObject obj) {
+      if (!obj.hasChildren()) {
+         String type = javaClassToJStor(obj.get().getClass().getName());
+         String name = obj.name;
+         String val = obj.get().toString();
+         return String.format("DEFINE %s %s = %s;", type, name, val);
+      }
+      
+      StringBuilder ret = new StringBuilder();
+      ArrayList<JStorageObject> children = obj.getChildren();
+      for (JStorageObject child : children) {
+         ret.append(dumpObject(child, obj.name));
+      }
+      return ret.toString();
+   }
+      
+   public static String dump(JStorageObject data) {
+      StringBuilder ret = new StringBuilder("BEGIN;");
+      ArrayList<JStorageObject> children = data.getChildren();
+      
+      for (JStorageObject child : children) {
+         ret.append(dumpObject(child));
+      }
+      
+      ret.append("END;");
+      return ret.toString();
+   }
+   
+   public static boolean dumpToFile(String path, JStorageData data) {
       return true;
-   }  
+   }
+   
+   private static String javaClassToJStor(String cls) {
+      String[] clsPath = cls.split("\\.");
+      return clsPath[clsPath.length-1].toUpperCase();
+   }
 }

@@ -22,6 +22,10 @@ public class JStorage {
    
    public void setData(JStorageData d) {
       data = d;
+   }  
+   
+   public String toString() {
+      return data.toString();
    }
    
    static public boolean addFromObjectPath(String[] objPath, JStorageObject obj, JStorageObject parent) {
@@ -59,10 +63,10 @@ public class JStorage {
          return null;
       }
       
-      ArrayList<JStorageObject> list = obj.getChildren();
-      for (JStorageObject d : list) {
-         if (d.name.equals(name)) {
-            return d; 
+      ArrayList<JStorageObject> children = obj.getChildren();
+      for (JStorageObject child : children) {
+         if (child.name.equals(name)) {
+            return child; 
          }
       }
       return null;
@@ -72,16 +76,34 @@ public class JStorage {
       return findObject(name, data);
    }
    
+   static private void allChildren(JStorageObject obj, ArrayList<JStorageObject> refList) {
+      if (obj.hasChildren()) {
+         ArrayList<JStorageObject> temp = obj.getChildren();
+         for (JStorageObject children : temp) {
+            allChildren(children, refList);
+         }
+      }
+      refList.add(obj);
+   }
+   
+   static public ArrayList<JStorageObject> allChildren(JStorageObject obj) {
+      ArrayList<JStorageObject> ret = new ArrayList<JStorageObject>();
+      allChildren(obj, ret);
+      return ret;
+   }
+   
+   public ArrayList<JStorageObject> allChildren() {
+      ArrayList<JStorageObject> ret = new ArrayList<JStorageObject>();
+      allChildren(data, ret);
+      return ret;
+   }
+   
    static public boolean exists(String name, JStorageData obj) {
       return findObject(name, obj) != null;
    }
    
    public boolean exists(String name) {
       return exists(name, data);
-   }
-   
-   public String toString() {
-      return data.toString();
    }
    
    static public JStorage fromJStorFile(String path) throws FileNotFoundException {
@@ -93,7 +115,7 @@ public class JStorage {
 //    static public JStorage fromJSONFile(String path) {}
    
    public String dumpToJStor() {
-      return JStor.dump();
+      return JStor.dump(data);
    }
    
 //    public String dumpToYAML() {}
@@ -101,7 +123,7 @@ public class JStorage {
 //    public String dumpToJSON() {}
    
    public boolean dumpToJStorFile(String path) {
-      return JStor.dumpToFile(path);
+      return JStor.dumpToFile(path, data);
    }
    
 //    public boolean dumpToYAMLFile(String path) {}

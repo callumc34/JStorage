@@ -1,7 +1,7 @@
 Anything before BEGIN is ignored
 
 Author: Callumc34
-Version 1.0
+Version: 1.0
 
 BEGIN; # Name of JStorage file is TEST_JSTOR
 

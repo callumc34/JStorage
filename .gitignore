@@ -6,3 +6,6 @@ JStorage.gpj
 
 #Maven
 target
+
+#test data
+src/test/resources/out
