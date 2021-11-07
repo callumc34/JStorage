@@ -3,7 +3,9 @@ package com.callumc34.jstorage;
 import java.lang.StringBuilder;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -187,7 +189,15 @@ class JStor {
       return ret.toString();
    }
    
-   public static boolean dumpToFile(String path, JStorageData data) {
+   public static boolean dumpToFile(String path, JStorageData data) throws FileNotFoundException, IOException {
+      FileWriter fw = new FileWriter(new File(path));
+      String dumps = dump(data);
+      String[] lines = dumps.split(";");
+      
+      for (String line : lines) {
+         fw.append(String.format("%s;\n", line));
+      }
+      fw.close();
       return true;
    }
    

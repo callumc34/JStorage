@@ -66,6 +66,25 @@ public class WriteTest {
     
     @Test
     public void WriteToFile() throws Throwable {
-    
+      JStorage testFile = new JStorage();
+      
+      String[] objPathOne = {"DEPTH", "TWO"};
+      testFile.addFromObjectPath(objPathOne, new JStorageObject("TEST", "OK"));
+      testFile.addFromObjectPath(objPathOne, new JStorageObject("TEST2", "ALL GOOD"));
+      
+        
+      testFile.addObject(new JStorageObject("NAME", "TEST FILE"));
+      String[] objPathTwo = {"SQUARE"};
+        
+      testFile.addFromObjectPath(objPathTwo, new JStorageObject("NAME", "CALLUM"));
+      testFile.addFromObjectPath(objPathTwo, new JStorageObject("X", 12));
+      testFile.addFromObjectPath(objPathTwo, new JStorageObject("Y", 12));
+      
+      Assert.assertEquals(
+         "Should pass generic dump to file test.",
+         testFile.dumpToJStorFile("src/test/resources/out/TestDump.jstor"),
+         true
+      );
+            
     }
 }

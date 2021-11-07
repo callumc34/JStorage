@@ -123,7 +123,11 @@ public class JStorage {
 //    public String dumpToJSON() {}
    
    public boolean dumpToJStorFile(String path) {
-      return JStor.dumpToFile(path, data);
+      try {
+         return JStor.dumpToFile(path, data);
+      } catch (Exception e) {
+         return false;
+      }
    }
    
 //    public boolean dumpToYAMLFile(String path) {}
