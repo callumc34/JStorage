@@ -12,10 +12,29 @@ public class WriteTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
     
+    //Utility
+    public static JStorage fillJStorage() {      
+      JStorage ret = new JStorage();
+      
+      String[] objPathOne = {"DEPTH", "TWO"};
+      ret.addFromObjectPath(objPathOne, new JStorageObject("TEST", "OK"));
+      ret.addFromObjectPath(objPathOne, new JStorageObject("TEST2", "ALL GOOD"));
+      
+        
+      ret.addObject(new JStorageObject("NAME", "TEST FILE"));
+      String[] objPathTwo = {"SQUARE"};
+        
+      ret.addFromObjectPath(objPathTwo, new JStorageObject("NAME", "CALLUM"));
+      ret.addFromObjectPath(objPathTwo, new JStorageObject("X", 12));
+      ret.addFromObjectPath(objPathTwo, new JStorageObject("Y", 12));
+      
+      return ret;
+    }
+    
     //TODO(Callum):Add tests that should fail
     
     @Test
-    public void ObjectDepth1Adding() throws Throwable {
+    public void JStorageObjectDepth1Adding() throws Throwable {
         JStorage testFile = new JStorage();
         
         testFile.addObject(new JStorageObject("NAME", "TEST FILE"));
@@ -34,7 +53,7 @@ public class WriteTest {
     }
     
     @Test
-    public void ObjectDepth2Adding() throws Throwable {
+    public void JStorageObjectDepth2Adding() throws Throwable {
       JStorage testFile = new JStorage();
       
       String[] objPath = {"DEPTH", "TWO"};
@@ -51,7 +70,7 @@ public class WriteTest {
     }
     
     @Test
-    public void WriteToNoneObject() throws Throwable {
+    public void JStorageWriteToNoneObject() throws Throwable {
       JStorage testFile = new JStorage();
       
       testFile.addObject(new JStorageObject("TEST", "STRING TYPE"));
@@ -64,27 +83,25 @@ public class WriteTest {
       );
     }
     
+    //TODO(Callum): Ensure dumped correctly
+    
     @Test
-    public void WriteToFile() throws Throwable {
-      JStorage testFile = new JStorage();
-      
-      String[] objPathOne = {"DEPTH", "TWO"};
-      testFile.addFromObjectPath(objPathOne, new JStorageObject("TEST", "OK"));
-      testFile.addFromObjectPath(objPathOne, new JStorageObject("TEST2", "ALL GOOD"));
-      
-        
-      testFile.addObject(new JStorageObject("NAME", "TEST FILE"));
-      String[] objPathTwo = {"SQUARE"};
-        
-      testFile.addFromObjectPath(objPathTwo, new JStorageObject("NAME", "CALLUM"));
-      testFile.addFromObjectPath(objPathTwo, new JStorageObject("X", 12));
-      testFile.addFromObjectPath(objPathTwo, new JStorageObject("Y", 12));
-      
+    public void JStorageWriteToFile() throws Throwable {
+      JStorage testFile = fillJStorage();
       Assert.assertEquals(
          "Should pass generic dump to file test.",
          testFile.dumpToJStorFile("src/test/resources/out/TestDump.jstor"),
          true
+      );            
+    }
+    
+    @Test
+    public void JStorageWriteToJSON() throws Throwable {
+      JStorage testFile = fillJStorage();
+      Assert.assertEquals(
+         "Should pass generic dump to JSON test.",
+         testFile.dumpToJSONFile("src/test/resources/out/TestDump.json"),
+         true
       );
-            
     }
 }

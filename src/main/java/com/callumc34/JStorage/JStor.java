@@ -94,6 +94,8 @@ class JStor {
             
             JStorageObject jstorObj;
             
+            //Remove surrounding quotation marks
+            stringValue = stringValue.replace("\"", "");
             
             //Debug
             //System.out.printf("\nLine: %d\nCommand: %s\nType: %s\nObject: %s\nValue:%s\n",
@@ -124,6 +126,7 @@ class JStor {
                   break;
                   
                default:
+                  //TODO(Callum): Throw error
                   jstorObj = new JStorageObject<String>(objName, stringValue);
                   break;                 
             }
@@ -150,6 +153,9 @@ class JStor {
          String type = javaClassToJStor(obj.get().getClass().getName());
          String name = obj.name;
          String val = obj.get().toString();
+         if (type.equals("STRING")) {
+            val = String.format("\"%s\"", val);
+         }
          return String.format("DEFINE %s %s.%s = %s;", type, parentPath, name, val);
       }      
       

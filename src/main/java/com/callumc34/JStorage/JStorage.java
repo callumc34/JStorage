@@ -5,6 +5,8 @@ import java.util.Arrays;
 
 import java.io.FileNotFoundException;
 
+import org.json.JSONObject;
+
 public class JStorage {
    private JStorageData data;
    
@@ -106,16 +108,33 @@ public class JStorage {
       return exists(name, data);
    }
    
+   static public JStorage fromJSON(JSONObject obj) {
+      return JSON.parse(obj);
+   }
+   
    static public JStorage fromJStorFile(String path) throws FileNotFoundException {
       return JStor.parse(path);
+   }
+   
+   static public JStorage fromJSONFile(String path) throws FileNotFoundException {
+      return JSON.parse(path);
    }
    
 //    static public JStorage fromYAMLFile(String path) {}
 //    static public JStorage fromXMLFile(String path) {}
 //    static public JStorage fromJSONFile(String path) {}
+
+   public JSONObject toJSON() {
+      return JSON.fromJStorage(data);
+   }
    
    public String dumpToJStor() {
       return JStor.dump(data);
+   }
+   
+   //TODO(Callum): Remove {"JStorage"} from JSON
+   public String dumpToJSON() {
+      return JSON.dump(data);
    }
    
 //    public String dumpToYAML() {}
@@ -125,6 +144,14 @@ public class JStorage {
    public boolean dumpToJStorFile(String path) {
       try {
          return JStor.dumpToFile(path, data);
+      } catch (Exception e) {
+         return false;
+      }
+   }
+   
+   public boolean dumpToJSONFile(String path) {
+      try {
+         return JSON.dumpToFile(path, data);
       } catch (Exception e) {
          return false;
       }
