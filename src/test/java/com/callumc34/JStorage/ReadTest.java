@@ -47,4 +47,15 @@ public class ReadTest {
          true
       );
     }
+    
+    @Test public void fromJSONToJStorDump() throws Throwable {
+      JStorage testFile = JStorage.fromJSONFile("src/test/resources/TestJSON.json");
+      Assert.assertEquals(
+         "Should pass conversion from JSON to JStor file",
+         testFile.dumpToJStor().equals(
+            "BEGIN;DEFINE INTEGER Height = 192;DEFINE STRING Unit = cm;DEFINE INTEGER Person.Height.Value = 183;DEFINE STRING Person.Height.Unit = \"cm\";DEFINE STRING Person.Height.Name = \"John\";DEFINE STRING Person.Height.Name = \"Paul\";END;"
+         ),
+         true
+      );
+    }
 }

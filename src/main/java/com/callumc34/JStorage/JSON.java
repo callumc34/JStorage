@@ -26,13 +26,7 @@ class JSON {
    }
    
    public static JStorage parse(JSONObject obj) {
-      JStorage ret = new JStorage();
-      
-      for (String key : obj.keySet()) {
-         
-      }
-      
-      return ret;
+      return JStorage.fromMap(obj.toMap());
    }
    
    public static void appendToJSON(JStorageObject obj, JSONObject json) {

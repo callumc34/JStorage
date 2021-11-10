@@ -2,6 +2,7 @@ package com.callumc34.jstorage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 import java.io.FileNotFoundException;
 
@@ -108,28 +109,28 @@ public class JStorage {
       return exists(name, data);
    }
    
-   static public JStorage fromJSON(JSONObject obj) {
-      return JSON.parse(obj);
+   static public JStorage fromMap(Map<String, Object> obj) {
+      return JavaMap.parse(obj);
    }
    
-   static public JStorage fromJStorFile(String path) throws FileNotFoundException {
-      return JStor.parse(path);
+   static public JStorage fromJSON(JSONObject obj) {
+      return JSON.parse(obj);
    }
    
    static public JStorage fromJSONFile(String path) throws FileNotFoundException {
       return JSON.parse(path);
    }
    
-//    static public JStorage fromYAMLFile(String path) {}
-//    static public JStorage fromXMLFile(String path) {}
-//    static public JStorage fromJSONFile(String path) {}
+   static public JStorage fromJStorFile(String path) throws FileNotFoundException {
+      return JStor.parse(path);
+   }
+   
+   public Map<String, Object> toMap() {
+      return JavaMap.fromJStorage(data);
+   }
 
    public JSONObject toJSON() {
       return JSON.fromJStorage(data);
-   }
-   
-   public String dumpToJStor() {
-      return JStor.dump(data);
    }
    
    //TODO(Callum): Remove {"JStorage"} from JSON
@@ -137,16 +138,8 @@ public class JStorage {
       return JSON.dump(data);
    }
    
-//    public String dumpToYAML() {}
-//    public String dumpToXML() {}
-//    public String dumpToJSON() {}
-   
-   public boolean dumpToJStorFile(String path) {
-      try {
-         return JStor.dumpToFile(path, data);
-      } catch (Exception e) {
-         return false;
-      }
+   public String dumpToJStor() {
+      return JStor.dump(data);
    }
    
    public boolean dumpToJSONFile(String path) {
@@ -157,11 +150,15 @@ public class JStorage {
       }
    }
    
-//    public boolean dumpToYAMLFile(String path) {}
-//    public boolean dumpToXMLFile(String path) {}
-//    public boolean dumpToJSONFile(String path) {}
+   public boolean dumpToJStorFile(String path) {
+      try {
+         return JStor.dumpToFile(path, data);
+      } catch (Exception e) {
+         return false;
+      }
+   }
    
    public boolean isInitialised() {
-      return true;
+      return data.hasChildren();
    }  
 }

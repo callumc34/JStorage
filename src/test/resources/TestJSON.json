@@ -1,0 +1,12 @@
+{
+	"Person" : {
+		"Name" : "John",
+		"Height" : {
+			"Value" : 183,
+			"Unit" : "cm"
+		}		
+	},
+	"Name" : "Paul",
+	"Height" : 192,
+	"Unit" : "cm"
+}
