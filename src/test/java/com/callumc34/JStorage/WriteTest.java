@@ -45,7 +45,7 @@ public class WriteTest {
         testFile.addFromObjectPath(objPath, new JStorageObject("Y", 12));
         
         Assert.assertEquals(
-            "Should pass generic depth 1 object adding test",
+            "Should pass generic depth 1 object adding test.",
             testFile.toString().equals(
                 "NAME: JStorage - VALUE: [NAME: NAME - VALUE: TEST FILE, NAME: SQUARE - VALUE: [NAME: NAME - VALUE: CALLUM, NAME: X - VALUE: 12, NAME: Y - VALUE: 12]]"),
             true
@@ -61,7 +61,7 @@ public class WriteTest {
       testFile.addFromObjectPath(objPath, new JStorageObject("TEST2", "ALL GOOD"));
       
       Assert.assertEquals(
-         "Should pass generic depth 2 object adding test",
+         "Should pass generic depth 2 object adding test.",
          testFile.toString().equals(
             "NAME: JStorage - VALUE: [NAME: DEPTH - VALUE: [NAME: TWO - VALUE: [NAME: TEST - VALUE: OK, NAME: TEST2 - VALUE: ALL GOOD]]]"
          ),
@@ -77,7 +77,7 @@ public class WriteTest {
       
       String[] objPath = {"TEST"};
       Assert.assertEquals(
-         "Should not be able to write to a pre-defined object with a value", 
+         "Should not be able to write to a pre-defined object with a value.", 
          testFile.addFromObjectPath(objPath, new JStorageObject("SHOULD", "FAIL")),
          false
       );

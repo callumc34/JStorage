@@ -148,6 +148,7 @@ class JStor {
       return ret;
    }
    
+   //TODO(Callum): Combine these two functions
    public static String dumpObject(JStorageObject obj, String parentPath) {   
       if (!obj.hasChildren()) {
          String type = javaClassToJStor(obj.get().getClass().getName());
@@ -172,6 +173,9 @@ class JStor {
          String type = javaClassToJStor(obj.get().getClass().getName());
          String name = obj.name;
          String val = obj.get().toString();
+         if (type.equals("STRING")) {
+            val = String.format("\"%s\"", val);
+         }
          return String.format("DEFINE %s %s = %s;", type, name, val);
       }
       

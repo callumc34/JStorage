@@ -1,32 +1,42 @@
 package com.callumc34.jstorage;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
+
+import org.json.JSONObject;
 
 class JavaMap {
    public static JStorage parse(Map<String, Object> map) {
+      HashMap<String, Object> JStorageMap = new HashMap<String, Object>();
+      toJStorageMap(null, map, JStorageMap);
+      
       JStorage ret = new JStorage();
-      addToJStorage(map, ret, new ArrayList<String>());
+      
+      for (Map.Entry<String, Object> entry : JStorageMap.entrySet()) {
+         String[] objPath = entry.getKey().split("\\.");
+         ret.addFromObjectPath(
+            Arrays.copyOf(objPath, objPath.length - 1),
+            new JStorageObject(objPath[objPath.length - 1], entry.getValue())
+         );
+      }
+         
       return ret;
    }
-      
-   public static void addToJStorage(Map<String, Object> map, JStorage jstor, ArrayList<String> path) {
+   
+   static public void toJStorageMap(String currentKey, Map<String, Object> map, Map<String, Object> out) {
       for (Map.Entry<String, Object> entry : map.entrySet()) {
+         String nextKey = (currentKey == null) ? entry.getKey() : currentKey + "." + entry.getKey();
          if (entry.getValue() instanceof Map) {
-            path.add(entry.getKey());
-            addToJStorage((Map<String, Object>) entry.getValue(), jstor, path);
+            toJStorageMap(nextKey, (Map<String, Object>) entry.getValue(), out);
          } else {
-            String[] objPath = new String[path.size()];
-            path.toArray(objPath);
-            jstor.addFromObjectPath(
-               objPath,
-               new JStorageObject(entry.getKey(), entry.getValue())
-            );
+            out.put(nextKey, entry.getValue());
          }
       }
    }
    
    public static Map<String, Object> fromJStorage(JStorageObject obj) {
-      return null;
+      return JSON.fromJStorage(obj).toMap();
    }
 }
