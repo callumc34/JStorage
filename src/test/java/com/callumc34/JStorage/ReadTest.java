@@ -50,7 +50,6 @@ public class ReadTest {
       );
     }
     
-    //BROKE
     @Test
     public void fromJSONToJStorDump() throws Throwable {
       JStorage testFile = JStorage.fromJSONFile("src/test/resources/TestJSON.json");
@@ -75,7 +74,6 @@ public class ReadTest {
       );
     }
     
-    //BROKE
     @Test
     public void fromMapToJStorDump() throws Throwable {
       HashMap<String, Object> testMap = new HashMap<String, Object>();
@@ -102,9 +100,33 @@ public class ReadTest {
       testMap.put("PersonTwo", personTwo);    
       
       Assert.assertEquals(
-         "Should pass conversion from JavaMap.",
+         "Should pass conversion from JavaMap to JStor file.",
          JStorage.fromMap(testMap).dumpToJStor().equals(
             "BEGIN;DEFINE STRING PersonTwo.Height.Unit = \"cm\";DEFINE INTEGER PersonTwo.Height.Value = 158;DEFINE STRING PersonTwo.Name = \"Paul\";DEFINE INTEGER PersonTwo.Weight.Value = 55;DEFINE STRING PersonTwo.Weight.Unit = \"kg\";DEFINE INTEGER Person.Height = 164;DEFINE STRING Person.Name = \"John\";DEFINE INTEGER Person.Weight = 74;DEFINE INTEGER Height = 194;DEFINE INTEGER Weight = 80;DEFINE STRING Name = \"Callum\";END;"
+         ),
+         true
+      );
+    }
+    
+    @Test
+    public void fromJStorToYAMLDump() throws Throwable {
+      JStorage testFile = JStorage.fromJStorFile("src/test/resources/TestJStor.jstor");
+      Assert.assertEquals(
+         "Should pass conversion from JStor to YAML.",
+         testFile.dumpToYAML().replaceAll("\n", "").equals(
+            "JStorage:  Height: 194  PersonTwo:    Height: {Value: 158, Unit: cm}    Weight: {Value: 55, Unit: kg}    Name: Marcos  Person: {Height: 164, Weight: 74, Name: John}  Weight: 80  Name: Callum"
+         ),
+         true
+      );
+    }
+    
+    @Test
+    public void fromYAMLToJStorDump() throws Throwable {
+      JStorage testFile = JStorage.fromYAMLFile("src/test/resources/TestYAML.yaml");
+      Assert.assertEquals(
+         "Should pass conversion from YAML to JStor file.",
+         testFile.dumpToJStor().equals(
+            "BEGIN;DEFINE STRING PersonTwo.Height.Unit = \"cm\";DEFINE INTEGER PersonTwo.Height.Value = 158;DEFINE STRING PersonTwo.Name = \"Marcos\";DEFINE INTEGER PersonTwo.Weight.Value = 55;DEFINE STRING PersonTwo.Weight.Unit = \"kg\";DEFINE INTEGER Person.Height = 164;DEFINE STRING Person.Name = \"John\";DEFINE INTEGER Person.Weight = 74;DEFINE INTEGER Height = 194;DEFINE INTEGER Weight = 80;DEFINE STRING Name = \"Callum\";END;"
          ),
          true
       );

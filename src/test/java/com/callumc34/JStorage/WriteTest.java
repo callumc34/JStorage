@@ -84,7 +84,7 @@ public class WriteTest {
     }
     
     //TODO(Callum): Ensure dumped correctly
-    
+    //TODO(Callum): Dump to temp folder
     @Test
     public void JStorageWriteToFile() throws Throwable {
       JStorage testFile = fillJStorage();
@@ -101,6 +101,16 @@ public class WriteTest {
       Assert.assertEquals(
          "Should pass generic dump to JSON test.",
          testFile.dumpToJSONFile("src/test/resources/out/TestDump.json"),
+         true
+      );
+    }
+    
+    @Test
+    public void JStorageWriteToYAML() throws Throwable {
+      JStorage testFile = fillJStorage();
+      Assert.assertEquals(
+         "Should pass generic dump to YAML test.",
+         testFile.dumpToYAMLFile("src/test/resources/out/TestDump.json"),
          true
       );
     }

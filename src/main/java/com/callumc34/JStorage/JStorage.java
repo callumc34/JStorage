@@ -117,12 +117,20 @@ public class JStorage {
       return JSON.parse(obj);
    }
    
+   static public JStorage fromYAML(String yml) {
+      return YAML.parseString(yml);
+   }
+   
    static public JStorage fromJSONFile(String path) throws FileNotFoundException {
       return JSON.parse(path);
    }
    
    static public JStorage fromJStorFile(String path) throws FileNotFoundException {
       return JStor.parse(path);
+   }
+   
+   static public JStorage fromYAMLFile(String path) throws FileNotFoundException {
+      return YAML.parse(path);
    }
    
    public Map<String, Object> toMap() {
@@ -142,6 +150,10 @@ public class JStorage {
       return JStor.dump(data);
    }
    
+   public String dumpToYAML() {
+      return YAML.dump(data);
+   }
+   
    public boolean dumpToJSONFile(String path) {
       try {
          return JSON.dumpToFile(path, data);
@@ -153,6 +165,14 @@ public class JStorage {
    public boolean dumpToJStorFile(String path) {
       try {
          return JStor.dumpToFile(path, data);
+      } catch (Exception e) {
+         return false;
+      }
+   }
+   
+   public boolean dumpToYAMLFile(String path) {
+     try {
+         return YAML.dumpToFile(path, data);
       } catch (Exception e) {
          return false;
       }
