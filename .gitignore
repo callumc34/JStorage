@@ -7,5 +7,10 @@ JStorage.gpj
 #Maven
 target
 
+#Eclipes
+.classpath
+.project
+.settings
+
 #test data
 src/test/resources/out

@@ -1,11 +1,9 @@
 package com.callumc34.jstorage;
 
 import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
-import org.json.JSONObject;
 
 class JavaMap {
    public static JStorage parse(Map<String, Object> map) {

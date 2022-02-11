@@ -1,7 +1,6 @@
 package com.callumc34.jstorage;
 
 import java.util.Map;
-import java.util.Scanner;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,7 +8,6 @@ import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 
 import org.yaml.snakeyaml.Yaml;
 
