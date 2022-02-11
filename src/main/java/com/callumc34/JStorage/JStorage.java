@@ -12,7 +12,7 @@ public class JStorage {
    private JStorageData data;
    
    public JStorage(JStorageData d) {
-      d = data;
+      data = d;
    }
    
    public JStorage() {
